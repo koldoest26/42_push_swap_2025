@@ -1,28 +1,47 @@
-NAME = push_swap
-SOURCES = algorithm.c error_free.c init_nodes.c push_swap_finish.c push_swap.c push.c reverse_rotate.c rotate.c stack_init.c stack_utils.c swap.c
-OBJECTS = $(SOURCES:.c=.o)
+NAME		= push_swap
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror
+
+SRCS		= algorithm.c \
+			  error_free.c \
+			  init_nodes.c \
+			  push_swap_finish.c \
+			  push_swap.c \
+			  push.c \
+			  reverse_rotate.c \
+			  rotate.c \
+			  stack_init.c \
+			  stack_utils.c \
+			  swap.c
+
+OBJS		= $(SRCS:.c=.o)
+
+INCLUDES	= -I. -Ilibft
+
+LIBFT_DIR	= libft
+LIBFT_A		= $(LIBFT_DIR)/libft.a
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS) libft
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) -Llibft -lft
+$(LIBFT_A):
+	make -C $(LIBFT_DIR)
 
-%.o: %.c
-	$(CC) -c $(CFLAGS) $?
 
-libft:
-	make -C libft
+%.o: %.c push_swap.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(NAME): $(OBJS) $(LIBFT_A)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME)
 
 clean:
-	rm -f $(OBJECTS)
-	make -C libft clean
+	make clean -C $(LIBFT_DIR)
+	rm -f $(OBJS)
 
 fclean: clean
-	rm -f push_swap libft/libft.a
+	make fclean -C $(LIBFT_DIR)
+	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all libft clean fclean re
+.PHONY: all clean fclean re

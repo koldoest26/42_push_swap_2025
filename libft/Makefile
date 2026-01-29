@@ -43,7 +43,9 @@ FILES = ft_atoi \
 		ft_putchar_fd \
 		ft_putendl_fd \
 		ft_putnbr_fd \
-		ft_putstr_fd
+		ft_putstr_fd \
+		ft_printf \
+		ft_printf_utils
 
 FILES_BONUS = ft_lstnew \
 			  ft_lstadd_front \
